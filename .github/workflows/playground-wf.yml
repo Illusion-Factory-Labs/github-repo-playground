@@ -43,6 +43,7 @@ jobs:
       
       - name: "Get environments with GH CLI using the generated token"
         id: gh-cli-ops
+        uses: Illusion-Factory-Labs/github-repo-templates/actions/components/file-variable-group/copy-env-vars@main
         env:
           GH_TOKEN: ${{ env.GHTOKEN }}
         with:
