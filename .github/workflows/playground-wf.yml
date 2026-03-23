@@ -1,0 +1,26 @@
+name: Playground Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+env:
+  GLOBAL_REPO_VAR: github-repo-variables
+  GH_PAT: ${{ secrets.GH_PAT }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "File Variable Groups 'prd'"
+        id: file-variable-group
+        run: |
+          echo "${{ github.repository_owner }}"
