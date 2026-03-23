@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         AMBIENTE: [des, prd, qa, tqs]
-    environment: ${{ matrix.AMBIENTE }}
+    environment: ${{ matrix.AMBIENTE == 'prd' && 'prd-vars' || matrix.AMBIENTE == 'tqs' &&  'tqs-vars' || matrix.AMBIENTE }}
     steps:
       - name: Generate token with GitHub App
         id: generate-token
