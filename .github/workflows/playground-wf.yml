@@ -11,6 +11,9 @@ permissions:
 env:
   GLOBAL_REPO_VAR: github-repo-variables
   GH_PAT: ${{ secrets.GH_PAT }}
+  WF_APP_ID: ${{ secrets.WF_APP_ID }}
+  WF_APP_PRIVATE_KEY: ${{ secrets.WF_APP_PRIVATE_KEY }}
+  GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
 
 defaults:
   run:
@@ -20,7 +23,19 @@ jobs:
   test-variables:
     runs-on: ubuntu-latest
     steps:
-      - name: "File Variable Groups 'prd'"
-        id: file-variable-group
+      - name: Generate token with GitHub App
+        id: generate-token
+        uses: Illusionist/github-repo-templates/actions/auth/generate-gh-token@main
+      
+      - name: "GitHub CLI Operations with Generated Token"
+        id: gh-cli-ops
+        env:
+          GHTOKEN: ${{ env.GHTOKEN }}
         run: |
-          echo "${{ github.repository_owner }}"
+          echo "🔍 ===== [GH CLI] Verificando autenticação com o token do GitHub App. ====="
+          # Configura o GitHub CLI para usar o token gerado
+          gh auth login --with-token <<< "$GHTOKEN"
+          
+          # Verifica a autenticação
+          echo "✅ ===== [GH CLI] Autenticação bem-sucedida. Exibindo informações do usuário autenticado. ====="
+          gh api user --jq '.login'
