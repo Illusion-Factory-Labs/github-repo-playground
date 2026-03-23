@@ -48,17 +48,13 @@ jobs:
           set -euo pipefail
 
           REPO="${{ github.repository}}"
-          OWNER="${{ github.repository_owner }}"
           ENV_NAME="${{ env.FINAL_ENV }}"
 
           declare -A ENV_VARS=()
 
           while IFS=$'\t' read -r k v; do
             ENV_VARS["$k"]="$v"
-          done < <(
-            gh api "repos/$OWNER/$REPO/environments/$ENV_NAME/variables" \
-            | jq -r '.variables[] | [.name, .value] | @tsv'
-          )
+          done < <(gh api "repos/$REPO/environments/$ENV_NAME/variables" | jq -r '.variables[] | [.name, .value] | @tsv')
 
           for k in "${!ENV_VARS[@]}"; do
             echo "key=$k value=${ENV_VARS[$k]}"
