@@ -22,12 +22,15 @@ defaults:
 jobs:
   test-variables:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        AMBIENTE: [des, prd, qa, tqs]
     steps:
       - name: Generate token with GitHub App
         id: generate-token
         uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/generate-gh-token@main
       
-      - name: "GitHub CLI Operations with Generated Token"
+      - name: "Get environments with GH CLI using the generated token"
         id: gh-cli-ops
         env:
           GH_TOKEN: ${{ env.GHTOKEN }}
