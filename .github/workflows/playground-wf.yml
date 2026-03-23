@@ -47,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          REPO ="${{ github.repository}}"
+          REPO="${{ github.repository}}"
           OWNER="${{ github.repository_owner }}"
           ENV_NAME="${{ env.FINAL_ENV }}"
 
