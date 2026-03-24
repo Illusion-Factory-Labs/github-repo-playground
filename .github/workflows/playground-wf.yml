@@ -43,10 +43,10 @@ jobs:
         if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
         uses: Illusion-Factory-Labs/github-repo-templates/actions/components/copy-existing-env-vars@main
         with:
+          dry_run: "0"
           source_environment: ${{ matrix.AMBIENTE }}
           destination_environment: ${{ env.FINAL_ENV }}
       
-      - name: "List variables in final environment"
+      - name: "List variables in environment"
         run: |
-          echo "Variables in environment: $FINAL_ENV"
-          ${{ toJson(vars) }}
+          echo "${{ toJson(vars) }}"
