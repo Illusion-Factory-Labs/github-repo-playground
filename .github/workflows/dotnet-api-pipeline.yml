@@ -69,7 +69,7 @@ permissions:
 
 jobs:
   workflow:
-    uses: caixasuperapp/Templates_CI_CD/.github/workflows/dotnet-api-workflow.yaml@main
+    uses: Illusion-Factory-Labs/github-repo-templates/.github/workflows/dotnet-api-workflow.yaml@main
     secrets: inherit
     with:
       BUILD_VERSION: '${{ inputs.BUILD_VERSION }}'
