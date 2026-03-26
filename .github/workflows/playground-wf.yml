@@ -82,4 +82,5 @@ jobs:
           echo '${{ toJson(vars) }}' | jq .
 
           echo "=== DEBUG: vars do ambiente de destino '${FINAL_ENV}' ==="
-          echo "${{steps.sync-vars.outputs.changed_variables_json}}" | jq .
+          CHANGED_VARS_JSON='${{ steps.sync-vars.outputs.changed_variables_json }}'
+          echo "${CHANGED_VARS_JSON:-[]}" | jq .
