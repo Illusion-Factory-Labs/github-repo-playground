@@ -55,6 +55,10 @@ jobs:
       - name: "Sync repo environment variables from '${{ matrix.AMBIENTE }}' to '${{ matrix.AMBIENTE == 'prd' && 'prd-vars' || matrix.AMBIENTE == 'tqs' && 'tqs-vars' }}'"
         if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
         uses: Illusion-Factory-Labs/github-repo-templates/actions/components/sync-existing-env-vars@main
+        with:
+          DRY_RUN: ${{ inputs.DRY_RUN }}
+          DEL_ENV: ${{ inputs.DEL_ENV }}
+          
       
       - name: "Debug vars source vs vars context"
         if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
