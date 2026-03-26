@@ -7,6 +7,10 @@ on:
         description: 'Whether to perform a dry run (no actual changes) or execute the sync (default: false).'
         required: false
         type: string
+        options:
+          - 'true'
+          - 'false'
+        default: 'false'
 
 permissions:
   contents: read
