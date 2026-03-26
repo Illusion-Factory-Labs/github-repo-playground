@@ -17,7 +17,7 @@ on:
           or comma-separated, no space, string (e.g. VAR_A,VAR_B).'
         required: false
         type: string
-        default: '[]'
+        default: []
 
 permissions:
   contents: read
