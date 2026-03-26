@@ -22,7 +22,7 @@ on:
       AMBIENTES:
         description: "Ambientes (Não PRD)"
         required: false
-        default: '["des"]'
+        default: '["prd"]'
         type: choice
         options:
           - '["des"]'
