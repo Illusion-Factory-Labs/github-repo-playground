@@ -83,4 +83,10 @@ jobs:
 
           echo "=== DEBUG: vars do ambiente de destino '${FINAL_ENV}' ==="
           CHANGED_VARS_JSON='${{ steps.sync-vars.outputs.changed_variables_json }}'
+          
           echo "${CHANGED_VARS_JSON:-[]}" | jq .
+
+          for var_name in $(echo "${CHANGED_VARS_JSON:-[]}" | jq -r '.[]'); do
+            echo "=== DEBUG: value of variable '$var_name' in vars context ==="
+            echo "${{ env.[var_name] }}"
+          done
