@@ -16,7 +16,7 @@ on:
           'Optional comma of source variable names to sync. Accepted formats: JSON array (e.g. ["VAR_A", "VAR_B"]) 
           or comma-separated, no space, string (e.g. VAR_A,VAR_B).'
         required: false
-        type: string
+        type: list
         default: []
 
 permissions:
