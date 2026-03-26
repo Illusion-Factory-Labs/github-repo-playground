@@ -7,7 +7,7 @@ on:
         description: 'Turn dry-run mode on or off.'
         required: false
         type: choice
-        default: 'false'
+        default: 'true'
         options:
           - 'true'
           - 'false'
@@ -18,6 +18,14 @@ on:
         required: false
         type: string
         default: '[]'
+      DEL_ENV:
+        description: 'Whether to delete the destination environment after syncing variables.'
+        required: false
+        type: choice
+        default: 'false'
+        options:
+          - 'true'
+          - 'false'
 
 permissions:
   contents: read
