@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       DRY_RUN_SYNC:
-        description: 'Turn dry-run mode on or off.'
+        description: 'Turn dry-run mode on or off for variable synchronization.'
         required: false
         type: choice
         default: 'false'
@@ -64,10 +64,10 @@ jobs:
   remove-env:
     runs-on: ubuntu-latest
     needs: test-variables
-    if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
     steps:
       - name: "Remover ambientes variáveis temporários"
         id: remove-envs
+        if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
         uses: Illusion-Factory-Labs/github-repo-templates/actions/components/remove-github-env@main
         with:
           DRY_RUN_ENV: ${{ inputs.DRY_RUN_ENV }}
