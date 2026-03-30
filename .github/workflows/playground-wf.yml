@@ -7,6 +7,10 @@ on:
         description: 'Version to build and deploy.'
         required: true
         default: '0.0.1'
+      DOTNET_VERSION:
+        required: true
+        type: string
+        default: '8.0'
       DRY_RUN_SYNC:
         description: 'Turn dry-run mode on or off for variable synchronization.'
         required: false
@@ -37,6 +41,7 @@ permissions:
 
 env:
   BUILD_VERSION: ${{ inputs.BUILD_VERSION }}
+  DOTNET_VERSION: "${{ inputs.DOTNET_VERSION }}"
   GLOBAL_REPO_VAR: github-repo-variables
   GH_PAT: ${{ secrets.GH_PAT }}
   WF_APP_ID: ${{ secrets.WF_APP_ID }}
