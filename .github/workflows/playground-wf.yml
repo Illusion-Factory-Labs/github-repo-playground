@@ -50,27 +50,29 @@ jobs:
         AMBIENTE: [des, prd, qa, tqs]
     environment: ${{ matrix.AMBIENTE == 'prd' && 'prd-vars' || (matrix.AMBIENTE == 'tqs' &&  'tqs-vars' || matrix.AMBIENTE) }}
     steps:
-      - name: Gerar token para autenticação com a API do GitHub
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/generate-gh-token@main
-      
-      - name: "Sincronizar variáveis de ambiente"
-        id: sync-vars  
+      - name: "Api Dotnet Variables"
+        uses: caixasuperapp/Templates_CI_CD/actions/context/dotnet-api@main
+      - name: "Token Create"
+        uses: caixasuperapp/Templates_CI_CD/actions/auth/githubapp@main
+      - name: "Sincronizar ambiente temporário para importação de variáveis (evitar aprovação manual)"
+        id: sync-temp-env-vars
         if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/components/sync-existing-env-vars@main
+        uses: caixasuperapp/Templates_CI_CD/actions/components/sync-github-env-vars@main
+      - name: "File Variable Groups '${{ matrix.AMBIENTE }}'"
+        id: file-variable-group
+        uses: caixasuperapp/Templates_CI_CD/actions/components/file-variable-group@main
+      - name: "Load Variable Groups '${{ matrix.AMBIENTE }}'"
+        uses: caixasuperapp/Templates_CI_CD/actions/components/load-variable-group@main
         with:
-          DRY_RUN_SYNC: ${{ inputs.DRY_RUN_SYNC }}
-          VARS_TO_SYNC: ${{ inputs.VARS_TO_SYNC }}
-      
-  remove-env:
-    needs: test-variables
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Gerar token para autenticação com a API do GitHub
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/generate-gh-token@main
-        
-      - name: "Remover ambientes variáveis temporários"
-        id: remove-envs
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/components/remove-github-env@main
+          VARS_FILE: ${{ steps.file-variable-group.outputs.VARS_FILE }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+      - name: "Create Configmap"
+        uses: caixasuperapp/Templates_CI_CD/actions/components/create-configmap-dotnet@main
+      - name: "Replace Variable Group '${{ matrix.AMBIENTE }}'"
+        uses: caixasuperapp/Templates_CI_CD/actions/components/replace-tokens@main
         with:
-          DRY_RUN_ENV: ${{ inputs.DRY_RUN_ENV }}
+          FILES: "./**/k8s/*.yaml"
+          TOKEN_PREFIX: "#{"
+          TOKEN_SUFFIX: "}#"
+      - name: "Verificar PathBase esperado pelo deploy no AKS"
+        uses: caixasuperapp/Templates_CI_CD/actions/quality/code-check-dotnet@main
