@@ -62,12 +62,12 @@ jobs:
           VARS_TO_SYNC: ${{ inputs.VARS_TO_SYNC }}
       
   remove-env:
-    runs-on: ubuntu-latest
     needs: test-variables
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
     steps:
       - name: "Remover ambientes variáveis temporários"
         id: remove-envs
-        if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
         uses: Illusion-Factory-Labs/github-repo-templates/actions/components/remove-github-env@main
         with:
           DRY_RUN_ENV: ${{ inputs.DRY_RUN_ENV }}
