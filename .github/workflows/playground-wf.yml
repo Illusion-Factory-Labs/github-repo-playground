@@ -56,12 +56,13 @@ jobs:
         id: matrix-output
         with:
           yaml: |
-            ambiente: "${{ matrix.AMBIENTE }}-temp"
+            ambiente-temp: "${{ matrix.AMBIENTE }}-temp"
   
   remove-temp-env:
     runs-on: ubuntu-latest
+    name: remove-temp-env-${{ matrix.AMBIENTE.ambiente }}
     needs: test-variables
-    if: ${{ matrix.AMBIENTE.ambiente == 'prd-temp' || matrix.AMBIENTE.ambiente == 'tqs-temp' }}
+    if: ${{ matrix.AMBIENTE == 'prd-temp' || matrix.AMBIENTE == 'tqs-temp' }}
     strategy:
       matrix:
         AMBIENTE: ${{ fromJSON(needs.test-variables.outputs.json).ambiente }}
