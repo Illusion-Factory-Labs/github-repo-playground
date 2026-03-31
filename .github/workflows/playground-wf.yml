@@ -22,8 +22,9 @@ permissions:
   contents: read
 
 env:
-  BUILD_VERSION: 1.0.0
-  DOTNET_VERSION: 8.0
+  BUILD_VERSION: "1.0.0"
+  DOTNET_VERSION: "8.0"
+  ADV_SEC_LANG: "csharp"
   GLOBAL_REPO_VAR: github-repo-variables
   GH_PAT: ${{ secrets.GH_PAT }}
   WF_APP_ID: ${{ secrets.WF_APP_ID }}
