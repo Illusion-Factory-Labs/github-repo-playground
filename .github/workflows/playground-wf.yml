@@ -39,7 +39,7 @@ jobs:
   test-variables:
     runs-on: ubuntu-latest
     outputs:
-      json: ${{ steps.temp-env-exists.outputs.json }}
+      remove_temp_env: ${{ steps.temp-env-exists.outputs.need_to_remove }}
     strategy:
       fail-fast: false
       matrix:
@@ -78,7 +78,7 @@ jobs:
   remove-temp-env:
     runs-on: ubuntu-latest
     needs: test-variables
-    if: needs.test-variables.outputs.need_to_remove == 'true'
+    if: needs.test-variables.outputs.remove_temp_env == 'true'
     steps:
       - name: "Token Create"
         uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/githubapp@main
