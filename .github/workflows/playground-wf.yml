@@ -53,10 +53,10 @@ jobs:
       - name: Exportar ambientes temporários para os próximos jobs
         id: matrix-output
         if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
-        run: beacon-biosignals/matrix-output@v1
-          with:
-            yaml: |
-              ambiente-temp: "${{ matrix.AMBIENTE }}-temp"
+        uses: beacon-biosignals/matrix-output@v1
+        with:
+          yaml: |
+            ambiente-temp: "${{ matrix.AMBIENTE }}-temp"
   
   remove-temp-env:
     runs-on: ubuntu-latest
