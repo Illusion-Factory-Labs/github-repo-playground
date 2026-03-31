@@ -90,8 +90,7 @@ jobs:
 
       - name: Merge Outputs
         run: |
-          # jq -s '.' all-outputs/*/output.json > final-outputs.json
-          ls -la all-outputs/
+          jq -s '.' all-outputs/* > final-outputs.json
           
       - name: Display Final Outputs
         run: cat final-outputs.json
