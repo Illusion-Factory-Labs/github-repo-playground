@@ -67,16 +67,16 @@ jobs:
           VARS_FILE: ${{ steps.file-variable-group.outputs.VARS_FILE }}
           VARS_CONTEXT: ${{ toJson(vars) }}
           VARS_TEMP_ENV: ${{ steps.sync-temp-env-vars.outputs.changed_variables_json }}
+
       - name: "Gerar output de jobs matriz"
-        id: matrix-output
         uses: Illusion-Factory-Labs/github-repo-templates/actions/components/matrix-output@main
       
   remove-temp-env:
     runs-on: ubuntu-latest
     needs: test-variables
     steps:
-      - name: "Token Create"
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/githubapp@main
+      # - name: "Token Create"
+      #   uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/githubapp@main
         
       # - name: "Remover ambiente temporário de importação de variáveis"
       # uses: Illusion-Factory-Labs/github-repo-templates/actions/components/remove-github-env@main
