@@ -69,6 +69,7 @@ jobs:
           VARS_TEMP_ENV: ${{ steps.sync-temp-env-vars.outputs.changed_variables_json }}
 
       - name: "Gerar output de jobs matriz"
+        if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
         uses: Illusion-Factory-Labs/github-repo-templates/actions/components/matrix-output@main
       
   remove-temp-env:
@@ -89,7 +90,8 @@ jobs:
 
       - name: Merge Outputs
         run: |
-          jq -s '.' all-outputs/*/output.json > final-outputs.json
+          # jq -s '.' all-outputs/*/output.json > final-outputs.json
+          ls -la all-outputs/
           
       - name: Display Final Outputs
         run: cat final-outputs.json
