@@ -51,12 +51,12 @@ jobs:
           VARS_CONTEXT: ${{ toJson(vars) }}
           VARS_TEMP_ENV: ${{ steps.sync-temp-env-vars.outputs.changed_variables_json }}
       - name: Exportar ambientes temporários para os próximos jobs
+        id: matrix-output
         if: ${{ matrix.AMBIENTE == 'prd' || matrix.AMBIENTE == 'tqs' }}
         run: beacon-biosignals/matrix-output@v1
-        id: matrix-output
-        with:
-          yaml: |
-            ambiente-temp: "${{ matrix.AMBIENTE }}-temp"
+          with:
+            yaml: |
+              ambiente-temp: "${{ matrix.AMBIENTE }}-temp"
   
   remove-temp-env:
     runs-on: ubuntu-latest
