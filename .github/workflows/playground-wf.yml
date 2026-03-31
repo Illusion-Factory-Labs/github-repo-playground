@@ -3,47 +3,15 @@ name: Playground Workflow
 on:
   workflow_dispatch:
     inputs:
-      BUILD_VERSION:
-        description: 'Version to build and deploy.'
-        required: true
-        default: '0.0.1'
-      DOTNET_VERSION:
-        required: true
-        type: string
-        default: '8.0'
-      DRY_RUN_SYNC:
-        description: 'Turn dry-run mode on or off for variable synchronization.'
-        required: false
-        type: choice
-        default: 'true'
-        options:
-          - 'true'
-          - 'false'
-      DRY_RUN_ENV:
-        description: 'Turn dry-run mode on or off for environment removal.'
-        required: false
-        type: choice
-        default: 'true'
-        options:
-          - 'true'
-          - 'false'
-      VARS_TO_SYNC:
-        description: >-
-          'Optional comma of source variable names to sync. Accepted formats: JSON array (e.g. ["VAR_A", "VAR_B"]) or 
-          comma-separated, no space, string (e.g. VAR_A,VAR_B). Defaults to empty JSON array, which means sync all source variables.'
+      AMBIENTES:
         required: false
         type: string
-        default: '[]'
-      
+        default: '["des"]'
 
 permissions:
   contents: read
 
 env:
-  BUILD_VERSION: ${{ inputs.BUILD_VERSION }}
-  DOTNET_VERSION: "${{ inputs.DOTNET_VERSION }}"
-  ADV_SEC_LANG: "csharp"
-  
   GLOBAL_REPO_VAR: github-repo-variables
   GH_PAT: ${{ secrets.GH_PAT }}
   WF_APP_ID: ${{ secrets.WF_APP_ID }}
@@ -59,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        AMBIENTE: [des, prd, qa, tqs]
+        AMBIENTE: ${{ inputs.AMBIENTES }}
     environment: ${{ matrix.AMBIENTE == 'prd' && 'prd-vars' || (matrix.AMBIENTE == 'tqs' &&  'tqs-vars' || matrix.AMBIENTE) }}
     steps:
       - name: "Api Dotnet Variables"
@@ -78,7 +46,7 @@ jobs:
         with:
           VARS_FILE: ${{ steps.file-variable-group.outputs.VARS_FILE }}
           VARS_CONTEXT: ${{ toJson(vars) }}
-          VARS_TEMP_ENV: ${{ steps.sync-temp-env-vars.outputs.changed_variables_json || '{}' }}
+          VARS_TEMP_ENV: ${{ steps.sync-temp-env-vars.outputs.changed_variables_json }}
   
   remove-temp-env:
     runs-on: ubuntu-latest
