@@ -38,7 +38,7 @@ defaults:
 jobs:
   test-variables:
     runs-on: ubuntu-latest
-    name: test-variables-${{ matrix.AMBIENTE }}
+    name: "test-variables-${{ matrix.AMBIENTE }}"
     outputs:
       json: ${{ steps.matrix-output.outputs.json }}
     strategy:
