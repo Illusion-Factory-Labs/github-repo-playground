@@ -70,19 +70,19 @@ jobs:
           yaml: |
             ambiente-temp: "${{ matrix.AMBIENTE }}-temp"
   
-  remove-temp-env:
-    runs-on: ubuntu-latest
-    name: remove-temp-env-${{ matrix.AMBIENTE.ambiente }}
-    needs: test-variables
-    strategy:
-      matrix:
-        AMBIENTE: ${{ fromJSON(needs.test-variables.outputs.json).ambiente }}
-    steps:
-      - name: "Token Create"
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/githubapp@main
+  # remove-temp-env:
+  #   runs-on: ubuntu-latest
+  #   name: remove-temp-env-${{ matrix.AMBIENTE.ambiente }}
+  #   needs: test-variables
+  #   strategy:
+  #     matrix:
+  #       AMBIENTE: ${{ fromJSON(needs.test-variables.outputs.json).ambiente }}
+  #   steps:
+  #     - name: "Token Create"
+  #       uses: Illusion-Factory-Labs/github-repo-templates/actions/auth/githubapp@main
         
-      - name: "Remover ambiente temporário de importação de variáveis"
-        uses: Illusion-Factory-Labs/github-repo-templates/actions/components/remove-github-env@main
+  #     - name: "Remover ambiente temporário de importação de variáveis"
+  #       uses: Illusion-Factory-Labs/github-repo-templates/actions/components/remove-github-env@main
       
       # - name: "Create Configmap"
       #   uses: Illusion-Factory-Labs/github-repo-templates/actions/components/create-configmap-dotnet@main
